@@ -1,20 +1,14 @@
 const Koa = require('koa')
+const parser = require('koa-bodyparser')
+const InitManager = require('./core/init')
+const catchError = require('./middlewares/exception')
 
 const app = new Koa()
 
+app.use(catchError)
+app.use(parser)
 
-app.use(async (ctx, next) => {
-  console.log(1)
-  await next()
-  console.log(2)
-})
+InitManager.initCore(app)
 
-app.use(async (ctx, next) => {
-  console.log(3)
-  const axios = require('axios')
-  const res = await axios.get('http://7yue.pro')
-  next()
-  console.log(4)
-})
 
 app.listen(3000)
