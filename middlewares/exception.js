@@ -5,16 +5,16 @@ const catchError = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    // 开发环境
+    
+    // 开发环境下，未知错误，在控制台输出进行调试
     const isHttpException = error instanceof HttpException
     const isDev = global.config.environment === 'dev'
     if ( isDev && !isHttpException ) {
       throw error
     }
 
-    // 生产环境
+    // 生产环境，已知错误
     if (isHttpException) {
-      // 如果是已知错误
       ctx.body = {
         msg: error.msg,
         error_code: error.errorCode,
@@ -22,6 +22,7 @@ const catchError = async (ctx, next) => {
       }
       ctx.status = error.code
     } else {
+      // 未知错误
       ctx.body = {
         msg: 'unknown mistake',
         error_code: 999,
