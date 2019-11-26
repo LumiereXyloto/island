@@ -1,4 +1,4 @@
-const { db } = require('../../core/db')
+const { sequelize } = require('../../core/db')
 
 const { Sequelize, Model } = require('sequelize')
 
@@ -19,4 +19,7 @@ User.init({
     type: Sequelize.STRING(64),
     unique: true
   }
+}, {
+  sequelize,
+  tableName: 'user'
 })
