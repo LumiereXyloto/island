@@ -19,6 +19,21 @@ class User extends Model {
     }
     return user
   }
+
+  static async getUserByOpenId(openid) {
+    const user = await User.findOne({
+      where: {
+        openid
+      }
+    })
+    return user
+  }
+
+  static async registerByOpenid(openid) {
+    return await User.create({
+      openid
+    })
+  }
 }
 
 User.init({
@@ -42,7 +57,7 @@ User.init({
       this.setDataValue('password', psw)
     }
   },
-  openId: {
+  openid: {
     type: Sequelize.STRING(64),
     unique: true
   }

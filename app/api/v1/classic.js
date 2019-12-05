@@ -7,15 +7,18 @@ const router = new Router({
 })
 
 // m是属性，所以不用加括号
-router.get('/latest',new Auth().m, async (ctx, next) => {
-  // const path = ctx.params
+router.get('/latest',new Auth(9).m, async (ctx, next) => {
+  // const path = ctx.paramsß
   // const query = ctx.request.query
   // const headers = ctx.request.header
   // const body = ctx.request.body
 
   // const v = await new PositiveIntegerValidator().validate(ctx)
   // const id = v.get('path.id')
-  ctx.body = ctx.auth.uid
+  ctx.body = {
+    uid: ctx.auth.uid,
+    scope: ctx.auth.scope
+  }
 })
 
 module.exports = router
