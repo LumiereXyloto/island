@@ -91,11 +91,11 @@ function checkArtType(vals) {
   if (!type) {
     throw new Error('type是必须参数')
   }
-  type = parseInt(type)
+  // type = parseInt(type)
 
-  if (!ArtType.isThisType(type)) {
-    throw new Error('type参数不合法')
-  }
+  // if (!ArtType.isThisType(type)) {
+  //   throw new Error('type参数不合法')
+  // }
 }
 
 class LikeValidator extends PositiveIntegerValidator {

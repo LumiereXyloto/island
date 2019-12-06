@@ -23,7 +23,7 @@ class Favor extends Model {
       throw new global.errs.LikeError()
     }
     // 没有点过赞
-    // 事务操作
+    // 事务操作, 一定要return
     return sequelize.transaction(async t => {
       // 创建记录
       await Favor.create({
@@ -55,7 +55,7 @@ class Favor extends Model {
     }
     return sequelize.transaction(async t => {
       await favor.destroy({
-        force: true,
+        force: true, // 物理删除，false软删除插入时间戳
         transaction: t
       })
       const art = await Art.getData(artId, type, false)
