@@ -91,7 +91,7 @@ function checkArtType(vals) {
   if (!type) {
     throw new Error('type是必须参数')
   }
-  // type = parseInt(type)
+  // 返回的type是字符串，还要验证是否是100-400四种正确type
 
   // if (!ArtType.isThisType(type)) {
   //   throw new Error('type参数不合法')
@@ -105,10 +105,15 @@ class LikeValidator extends PositiveIntegerValidator {
   }
 }
 
+class ClassicValidator extends PositiveIntegerValidator {
+  // 只用验证id和type，直接继承即可
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   NotEmptyValidator,
-  LikeValidator
+  LikeValidator,
+  ClassicValidator
 }

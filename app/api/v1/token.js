@@ -11,6 +11,7 @@ const router = new Router({
 })
 
 router.post('/', async (ctx, next) => {
+  console.log(ctx.request.body)
   const v = await new TokenValidator().validate(ctx)
   
   // 处理不同LoginType
@@ -25,6 +26,7 @@ router.post('/', async (ctx, next) => {
     default:
       throw new global.errs.ParameterException('没有相应的处理函数');
   }
+  console.log(token)
   ctx.body = {
     token
   }
