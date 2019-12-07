@@ -1,6 +1,6 @@
 const { LinValidator, Rule } = require('../../core/lin-validator-v2')
 const { User } = require('../models/user')
-const { LoginType } = require('../lib/enum')
+const { LoginType, ArtType } = require('../lib/enum')
 
 class PositiveIntegerValidator extends LinValidator {
   constructor () {
@@ -92,10 +92,10 @@ function checkArtType(vals) {
     throw new Error('type是必须参数')
   }
   // 返回的type是字符串，还要验证是否是100-400四种正确type
-
-  // if (!ArtType.isThisType(type)) {
-  //   throw new Error('type参数不合法')
-  // }
+  type = parseInt(type)
+  if (!ArtType.isThisType(type)) {
+    throw new Error('type参数不合法')
+  }
 }
 
 class LikeValidator extends PositiveIntegerValidator {

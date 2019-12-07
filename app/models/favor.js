@@ -1,7 +1,8 @@
 const { sequelize } = require('../../core/db')
 const {
   Sequelize,
-  Model
+  Model,
+  Op
 } = require('sequelize')
 const {
   Art
@@ -110,6 +111,23 @@ class Favor extends Model {
       favNums: favorNums,
       likeStatus: myFavor ? 1 : 0
     }
+  }
+
+  static async getMyClassicFavors(uid) {
+    // 得到arts的id，type
+    const arts = await Favor.findAll({
+      where: {
+        uid,
+        type: {
+          [Op.not]: 400 // 不等于400
+        }
+      }
+    })
+    if (!arts) {
+      throw new global.errs.NotFound()
+    }
+    // 得到arts具体信息
+    return await Art.getList(arts)
   }
 }
 
