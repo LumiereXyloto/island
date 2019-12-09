@@ -119,7 +119,7 @@ class Favor extends Model {
       where: {
         uid,
         type: {
-          [Op.not]: 400 // 不等于400
+          [Op.not]: 400 // 不等于400，只查询句子电影音乐，不查询书籍
         }
       }
     })

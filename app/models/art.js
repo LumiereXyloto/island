@@ -9,6 +9,25 @@ const {
 
 class Art {
 
+  constructor(art_id, type) {
+    this.art_id = art_id
+    this.type = type
+  }
+
+  async getDetail(uid) {
+    const { Favor } = require('./favor') //不能放在顶部，会造成循环导入
+    // console.log(this.art_id, this.type, uid)
+    const art = await Art.getData(this.art_id, this.type)
+    if (!art) {
+      throw new global.errs.NotFound()
+    }
+    const like = await Favor.userLikeIt(this.art_id, this.type, uid)
+    return {
+      art,
+      like_status: like
+    }
+  }
+
   static async getData(artId, type) {
     let art = null
     const finder = {
@@ -34,31 +53,31 @@ class Art {
     return art
   }
 
-  static async getDataScope(artId, type, useScope = true) {
-    let art = null
-    const finder = {
-      where: {
-        id: artId
-      }
-    }
-    const scope = useScope ? 'bh' : null
-    switch (type) {
-      case 100:
-        art = await Movie.scope(scope).findOne(finder)
-        break
-      case 200:
-        art = await Music.scope(scope).findOne(finder)
-        break
-      case 300:
-        art = await Sentence.scope(scope).findOne(finder)
-        break
-      case 400:
-        break
-      default:
-        break
-    }
-    return art
-  }
+  // static async getDataScope(artId, type, useScope = true) {
+  //   let art = null
+  //   const finder = {
+  //     where: {
+  //       id: artId
+  //     }
+  //   }
+  //   const scope = useScope ? 'bh' : null
+  //   switch (type) {
+  //     case 100:
+  //       art = await Movie.scope(scope).findOne(finder)
+  //       break
+  //     case 200:
+  //       art = await Music.scope(scope).findOne(finder)
+  //       break
+  //     case 300:
+  //       art = await Sentence.scope(scope).findOne(finder)
+  //       break
+  //     case 400:
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   return art
+  // }
 
   static async getList(artInfoList) {
     // 分三次in查询
@@ -73,7 +92,7 @@ class Art {
     // 所有结果
     const arts = []
     for (let key in artInfoObj) {
-      // 取得某种type的id数组
+      // key就是art的type，取得某种type的id数组
       const ids = artInfoObj[key]
       if (!ids.length) {
         continue
@@ -94,16 +113,15 @@ class Art {
         }
       }
     }
-    const scope = 'bh'
     switch (type) {
       case 100:
-        arts = await Movie.scope(scope).findAll(finder)
+        arts = await Movie.findAll(finder)
         break
       case 200:
-        arts = await Music.scope(scope).findAll(finder)
+        arts = await Music.findAll(finder)
         break
       case 300:
-        arts = await Sentence.scope(scope).findAll(finder)
+        arts = await Sentence.findAll(finder)
         break
       case 400:
         break
