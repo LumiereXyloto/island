@@ -18,7 +18,7 @@ class HotBook extends Model {
       order: ['index'] // 正序不需要加DESC
     })
 
-    const ids = books.map(book => book.id)
+    const ids = books.map(book => book.id) // 得到所有图书的id
     const favors = await Favor.findAll({
       where: {
         artId: {
@@ -26,8 +26,8 @@ class HotBook extends Model {
         },
         type: 400
       },
-      group: ['artId'],
-      attributes: ['artId', [Sequelize.fn('COUNT', '*'), 'count']]
+      group: ['artId'], // 根据artId分组查询，如果不分组查询a多个用户点赞同一个那么artId-uid就会出现很多条记录，需要对artId对应点赞数分别统计
+      attributes: ['artId', [Sequelize.fn('COUNT', '*'), 'count']] // 结果包含字段
     })
 
     books.forEach(book => {
