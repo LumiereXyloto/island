@@ -26,12 +26,12 @@ class Book extends Model {
     return detail.data
   }
 
-  // static async searchFromYuShu(q, start, count, summary = 1) {
-  //   const url = util.format(
-  //     global.config.yushu.keywordUrl, encodeURI(q), count, start, summary)
-  //   const result = await axios.get(url)
-  //   return result.data
-  // }
+  static async searchFromYuShu(q, start, count, summary = 1) {// summary显示概要还是详情
+    const url = util.format(
+      global.config.yushu.keywordUrl, encodeURI(q), count, start, summary)
+    const result = await axios.get(url)
+    return result.data
+  }
 
   // static async getMyFavorBookCount(uid) {
   //   const count = await Favor.count({
