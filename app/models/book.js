@@ -11,9 +11,9 @@ const {
   Model
 } = require('sequelize')
 
-// const {
-//   Favor
-// } = require('@model/favor')
+const {
+  Favor
+} = require('./favor')
 
 class Book extends Model {
   constructor() {
@@ -33,15 +33,15 @@ class Book extends Model {
     return result.data
   }
 
-  // static async getMyFavorBookCount(uid) {
-  //   const count = await Favor.count({
-  //     where: {
-  //       type: 400,
-  //       uid
-  //     }
-  //   })
-  //   return count
-  // }
+  static async getMyFavorBookCount(uid) {
+    const count = await Favor.count({
+      where: {
+        type: 400,
+        uid
+      }
+    })
+    return count
+  }
 }
 
 Book.init({
